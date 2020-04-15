@@ -3,7 +3,7 @@ import smtplib
 from bs4 import BeautifulSoup
 import smtplib
 
-store = ["emag", "carrefour", "auchan"]
+store = ["Emag", "Carrefour", "Auchan"]
 
 def find_minimum(search):
 
@@ -22,32 +22,35 @@ def find_minimum(search):
         search = search[0]
 
     #emag
-    URL = "https://www.emag.ro/search/" + search + "?ref=effective_search"
-    #"https://www.emag.ro/search/" + search
-    content = requests.get(URL)
-    soup = BeautifulSoup(content.text, 'html.parser')
-    rez = soup.find_all("p", attrs="product-new-price")
-    minim = None
 
-    for elem in rez:
+    try:
+        URL = "https://www.emag.ro/search/" + search + "?ref=effective_search"
+        #"https://www.emag.ro/search/" + search
+        content = requests.get(URL)
+        soup = BeautifulSoup(content.text, 'html.parser')
+        rez = soup.find_all("p", attrs="product-new-price")
+        minim = None
 
-        elem = elem.contents
+        for elem in rez:
 
-        if len(elem) >= 2:
-            fractie = elem[1].text
-            pret = float(elem[0].replace(".", "") + "." + fractie)
-            #print(pret)
+            elem = elem.contents
 
-            if minim is None:
-                minim = pret
-            elif minim > pret:
-                minim = pret
+            if len(elem) >= 2:
+                fractie = elem[1].text
+                pret = float(elem[0].replace(".", "") + "." + fractie)
+                #print(pret)
 
-    if minim is None:
+                if minim is None:
+                    minim = pret
+                elif minim > pret:
+                    minim = pret
+
+        if minim is None:
+            price.append(0)
+        else:
+            price.append(minim)
+    except:
         price.append(0)
-    else:
-        price.append(minim)
-
 
     # carrefour
     URL = "https://carrefour.ro/catalogsearch/result/?q=" + search
@@ -126,27 +129,38 @@ def find_minimum(search):
 #    print(find_minimum(obj))
 
 def send_mail(input, sender, password, receiver):
-    for obj in input:
 
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login(sender, password)
+
+    body = 'Hello!\n'
+    subject = 'Smallest price'
+
+    shops = {}
+
+    for obj in input:
         store, minim = find_minimum(obj)
 
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login(sender, password)
+        if shops.get(store) is None:
+            shops[store] = []
+        shops[store].append((obj, minim))
 
-        subject = 'Smallest price'
-        body = 'Hello!\n' \
-               'Check the store: {0}! This is where you can find the best price ever {1} for the item you are willing to buy! \n' \
-               'We have the best price solutions for your budget! Same quality for less! Maximize your satisfaction and save your money!\n' \
-               'Best wishes!\n' \
-               'Food Tracker Team:)'.format(store,minim)
+    for store in shops:
+        line  = "\nCheck {0}! This is where you can find the best price ever for:\n\n".format(store)
+        for obj in shops[store]:
+            line += ">     " + obj[0] + " at the best price of " + str(obj[1]) + "\n"
+        body += line
 
-        msg = f"Subject: {subject}\n\n{body}"
-        server.sendmail('food.tracker.prices@gmail.com',receiver,msg)
-        print('SENT')
+    body += "\nWe have the best price solutions for your budget! Same quality for less! Maximize your satisfaction and save your money!\n\nBest wishes,\nSUPPLIED Team:)"
 
-        server.quit()
+    msg = f"Subject: {subject}\n\n{body}"
+    server.sendmail('food.tracker.prices@gmail.com',receiver,msg)
+    print('SENT')
+    server.quit()
 
-send_mail(["lapte"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'johnny.savu.99@gmail.com')
+
+send_mail(["nuci", "calculator", "creioane", "laptop"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'alemsb29@gmail.com')
+send_mail(["geaca", "laptop", "prune", "masina"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'johnny.savu.99@gmail.com')
