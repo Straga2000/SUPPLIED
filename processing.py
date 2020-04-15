@@ -3,6 +3,7 @@ import numpy as np
 
 timeLengths = {"DAY" : 1, "WEEK" : 7, "MONTH": 28}
 absoluteTime = 1
+important_category = ("water","meds")
 
 
 def updateTime(type=timeLengths["DAY"]):
@@ -18,9 +19,13 @@ def updateTime(type=timeLengths["DAY"]):
     return absoluteTime
 
 
+'''  ----------------------------------------- PRODUCT ---------------------------------------'''
 class Product:
-    def __init__(self, name = '',price = 0.0, quantity = 0, time = 0):
+    def __init__(self,category='', name = '',price = 0.0, quantity = 0, time = 0):
         self.updateCounter = 1
+        self.category = category
+        self.priority = 5
+        #on a scale from 1 to 10
 
         self.name = name
 
@@ -106,12 +111,18 @@ class Product:
         #returneaza pretul unui obiect la momentul de timp time 
 
     def get_expense_over_a_week(self):
+
         avgDailyDistr = self.get_average_daily_distribution()
         ans = 0.0
+
         for index in range(1, 8):
             ans += avgDailyDistr * self.get_future_price(absoluteTime + index)
-        return ans
+        return abs(ans)
         # e(x) = Expense of product x over a week = FP(T+1) * D + FP(T + 2) * D +... + FP(T+7) * D
+
+    def change_priority(self, value):
+        self.priority = value
+
 
     def to_dict(self):
         ans = dict()
@@ -124,15 +135,19 @@ class Product:
         ans['name'] = self.name
         return ans
 
+'''  ----------------------------------------- PRODUCTLIST ---------------------------------------  '''
 
 class ProductList:
     def __init__(self):
         self.productList = {}
 
-    def add_product(self, name, price, quantity, time):
+    def add_product(self, category, name, price, quantity, time):
 
         if self.productList.get(name) is None:
-            self.productList[name] = Product(name, price, quantity, time)
+            self.productList[name] = Product(category, name, price, quantity, time)
+            # if the product is water or meds, set the priority to max
+            if important_category[0] in category or important_category[1] in category:
+                self.productList[name].change_priority(10)
         else:
             self.productList[name].update_product(price, quantity, time)
 
@@ -142,18 +157,8 @@ class ProductList:
         else:
             return None
 
-    def get_forecast_budget(self):
-        sum = 0
-
-        for key in self.productList:
-            sum += self.productList[key].get_expense_over_a_week()
-
-        return sum
-
     def filter(self, type="None"):
-
         value = 0
-
         for key in timeLengths:
             if type == key:
                 value = timeLengths[key]
@@ -164,7 +169,7 @@ class ProductList:
             newList = {}
 
             for key in self.productList:
-                if self.productList[key].get_daily_distribution() >= value:
+                if self.productList[key].get_average_daily_distribution() >= value:
                     newList[key] = self.productList[key]
 
             return newList
@@ -174,4 +179,45 @@ class ProductList:
         for key in self.productList.keys():
             ans[key] = self.productList[key].to_dict()
         return ans
+#-------------------------------- expense methods ---------------------------
+    def get_expense_over_a_week(self):
+        ans = 0.0
+        for item in self.productList.keys():
+            ans += self.productList[item].get_expense_over_a_week()
+        return ans
+
+    def get_expense_over_a_month(self):
+        return self.get_expense_over_a_week()
+
+
+''' ---------------------------------------- USER -------------------------------------------- '''
+class User:
+    def __init__(self, first_name, last_name ='', email = '', id = '', password_hash = '', budget = 0.0):
+        self.firs_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.id = id
+        self.password_hash = password_hash
+        self.budget = budget
+        self.product_list = ProductList()
+
+    def update_budget(self, val):
+        self.budget = val
+
+    def add_item(self,category, name, price, quantity, time):
+        self.product_list.add_product(category, name, price, quantity, time)
+
+    #changes the priority of an item based on the swap left or right that he made
+    def change_item_priority(self, name, value):
+        for key in self.product_list.keys():
+            if key == name:
+                self.product_list[key].change_priority(value)
+                break
+    def get_remove_suggestion(self):
+        if self.budget >= self.product_list.get_expense_over_a_month():
+            return "Well done!!!"
+        else:
+            pass
+
+
 
