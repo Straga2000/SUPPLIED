@@ -1,3 +1,6 @@
+
+timeLegths = {"DAY" : 1, "WEEK" : 7, "MONTH": 28}
+
 class Product:
     def __init__(self, price, quantity, time):
 
@@ -6,18 +9,23 @@ class Product:
         self.initialPrice = price
         self.currentPrice = price
         self.currentQuantity = quantity
+
         self.currentTimeStamp = time
+        self.lastTimeStamp = time
 
         self.totalQuantity = quantity
         self.totalPrices = price
 
-    # def set_product(self, price, quantity, time):
-    #
-    #     self.currentPrice = price
-    #     self.currentQuantity = quantity
-    #     self.currentTimeStamp = time
-    #     self.totalQuantity += quantity
-    #     self.totalPrices += price
+    def set_product(self, price, quantity, time):
+
+        self.currentPrice = price
+        self.currentQuantity = quantity
+
+        self.lastTimeStamp = self.currentTimeStamp
+        self.currentTimeStamp = time
+
+        self.totalQuantity += quantity
+        self.totalPrices += price
 
     def get_average_price(self):
         return self.totalPrices / self.updateCounter
@@ -34,10 +42,10 @@ class Product:
         #D = Average daily_Distribution = total_quantity / t[i]
         #se face dupa set_product
 
-    def get_daily_distribution(self, quantity, time):
-        return quantity / (time - self.currentTimeStamp)
+    def get_daily_distribution(self):
+        return self.currentQuantity / (self.currentTimeStamp - self.lastTimeStamp)
         #d = Daily_distribution = quantity[i]] / (t[i] - t[i - 1])
-        #se face inainte de set_product
+        #se face dupa set_product
 
     def get_future_price(self, time):
         return self.average_price_change() * time + self.get_average_price()
@@ -72,13 +80,6 @@ class Product:
 
         self.set_product(price, quantity, time)
 
-    def get_average_quantity(self):
-        calc = 0
-
-        for elem in self.quantityList:
-            calc += elem[0] * elem[1]
-
-        return  calc / self.totalQuantitySum
 
 class ProductList:
     def __init__(self):
@@ -97,4 +98,29 @@ class ProductList:
         else:
             return None
 
-    def
+    def get_forecast_budget(self):
+        sum = 0
+
+        for key in self.productList:
+            sum += self.productList[key].get_expense_over_a_week()
+
+        return sum
+
+    def filter(self, type="None"):
+
+        value = 0
+
+        for key in timeLegths:
+            if type == key:
+                value = timeLegths[key]
+
+        if value == 0:
+            return self.productList
+        else:
+            newList = {}
+
+            for key in self.productList:
+                if self.productList[key].get_daily_distribution() >= value:
+                    newList[key] = self.productList[key]
+
+            return newList
