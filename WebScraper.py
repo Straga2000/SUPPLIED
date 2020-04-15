@@ -1,24 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = 'https://www.cora.ro/search?categoryId=&queryStr=iaurt'
-headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'}
+URL = 'https://carrefour.ro/it-c/telefoane-tablete-gadget-uri/telefonie-fixa-si-teleconferinta'
+content = requests.get(URL)
+soup = BeautifulSoup(content.text, 'html.parser')
 
-page = requests.get(URL, headers=headers)
+elem = soup.find_all("span", class_="price")
+price_list =[]
+for it in elem:
+    pret = it.get_text().strip()
+    pret = pret.replace(',','.')
+    converted_pret = float(pret[:-4])
+    price_list.append(converted_pret)
+print(price_list)
+print(min(price_list))
 
-soup = BeautifulSoup(page.content, 'html.parser')
-#title = soup.find(id="product-details").get_text()
-#price = soup.find(class="price").get_text()
-#print(title.strip())
 
-urls = []
-urls = soup.find_all('span')
-for obj in urls:
-    try:
-        link = obj.attrs['class']
-        if link=='price':
-            print(obj)
-
-    except:
-        print("Nu are link!")
-#print(urls)
