@@ -168,3 +168,10 @@ class ProductList:
                     newList[key] = self.productList[key]
 
             return newList
+
+    def to_dict(self):
+        ans = dict()
+        for key in self.productList.keys():
+            ans[key] = self.productList[key].to_dict()
+        return ans
+
