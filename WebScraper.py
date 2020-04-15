@@ -35,7 +35,8 @@ def find_minimum(search):
 
         if len(elem) >= 2:
             fractie = elem[1].text
-            pret = float(elem[0] + "." + fractie)
+            pret = float(elem[0].replace(".", "") + "." + fractie)
+            #print(pret)
 
             if minim is None:
                 minim = pret
@@ -49,7 +50,7 @@ def find_minimum(search):
 
 
     # carrefour
-    URL = "https://www.emag.ro/search/" + search
+    URL = "https://carrefour.ro/catalogsearch/result/?q=" + search
     content = requests.get(URL)
     soup = BeautifulSoup(content.text, 'html.parser')
     rez = soup.find_all("span", attrs="price")
@@ -60,12 +61,16 @@ def find_minimum(search):
         pret = elem.text.strip()
         pret = pret.split("Lei/bucata")[0]
         pret = pret.replace(",", ".")
-        pret = float(pret)
 
-        if minim is None:
-             minim = pret
-        elif minim > pret:
-             minim = pret
+        try:
+            pret = float(pret)
+
+            if minim is None:
+                minim = pret
+            if minim > pret:
+                minim = pret
+        except:
+            pret = None
 
     if minim is None:
         price.append(0)
@@ -114,33 +119,34 @@ def find_minimum(search):
             if minim == price[i]:
                 return store[i], minim
 
-vec = ['lapte', 'apa', 'vin']
 
-for obj in vec:
-    print(find_minimum(obj))
+#vec = ['apa', 'vin']
 
-# def send_mail(input, sender, password, receiver):
-#     for obj in input:
-#
-#         store, minim = find_minimum(obj)
-#
-#         server = smtplib.SMTP('smtp.gmail.com', 587)
-#         server.ehlo()
-#         server.starttls()
-#         server.ehlo()
-#         server.login(sender, password)
-#
-#         subject = 'Smallest price'
-#         body = 'Hello!\n' \
-#                'Check the store: {0}! This is where you can find the best price ever {1} for the item you are willing to buy! \n' \
-#                'We have the best price solutions for your budget! Same quality for less! Maximize your satisfaction and save your money!\n' \
-#                'Best wishes!\n' \
-#                'Food Tracker Team:)'.format(store,minim)
-#
-#         msg = f"Subject: {subject}\n\n{body}"
-#         server.sendmail('food.tracker.prices@gmail.com',receiver,msg)
-#         print('SENT')
-#
-#         server.quit()
-#
-# send_mail(["lapte"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'johnny.savu.99@gmail.com')
+#for obj in vec:
+#    print(find_minimum(obj))
+
+def send_mail(input, sender, password, receiver):
+    for obj in input:
+
+        store, minim = find_minimum(obj)
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(sender, password)
+
+        subject = 'Smallest price'
+        body = 'Hello!\n' \
+               'Check the store: {0}! This is where you can find the best price ever {1} for the item you are willing to buy! \n' \
+               'We have the best price solutions for your budget! Same quality for less! Maximize your satisfaction and save your money!\n' \
+               'Best wishes!\n' \
+               'Food Tracker Team:)'.format(store,minim)
+
+        msg = f"Subject: {subject}\n\n{body}"
+        server.sendmail('food.tracker.prices@gmail.com',receiver,msg)
+        print('SENT')
+
+        server.quit()
+
+send_mail(["lapte"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'johnny.savu.99@gmail.com')
