@@ -1,6 +1,20 @@
 import numpy as np
 
-timeLegths = {"DAY" : 1, "WEEK" : 7, "MONTH": 28}
+timeLengths = {"DAY" : 1, "WEEK" : 7, "MONTH": 28}
+absoluteTime = 1
+
+
+def updateTime(type=timeLengths["DAY"]):
+    global absoluteTime
+    value = 0
+
+    for key in timeLengths:
+        if type == key:
+            value = timeLengths[key]
+
+    absoluteTime += value
+
+    return absoluteTime
 
 class Product:
     def __init__(self, price, quantity, time):
@@ -142,9 +156,9 @@ class ProductList:
 
         value = 0
 
-        for key in timeLegths:
+        for key in timeLengths:
             if type == key:
-                value = timeLegths[key]
+                value = timeLengths[key]
 
         if value == 0:
             return self.productList
