@@ -1,3 +1,4 @@
+#de la product la dict
 import numpy as np
 
 timeLengths = {"DAY" : 1, "WEEK" : 7, "MONTH": 28}
@@ -16,30 +17,23 @@ def updateTime(type=timeLengths["DAY"]):
 
     return absoluteTime
 
+
 class Product:
-    def __init__(self, price, quantity, time):
-
+    def __init__(self, name = '',price = 0.0, quantity = 0, time = 0):
         self.updateCounter = 1
-        self.timeStamp = []
-        self.prices = []
 
-        self.initialPrice = price
-        self.currentPrice = price
-        self.currentQuantity = quantity
-
-        self.currentTimeStamp = time
-        self.lastTimeStamp = time
+        self.name = name
 
         self.totalQuantity = quantity
         self.totalPrices = price
 
+        self.quantity = [quantity]
+        self.timeStamp = [time]
+        self.prices = [price]
+
     def set_product(self, price, quantity, time):
 
-        self.currentPrice = price
-        self.currentQuantity = quantity
-
-        self.lastTimeStamp = self.currentTimeStamp
-        self.currentTimeStamp = time
+        self.quantity += [quantity]
 
         self.totalQuantity += quantity
         self.totalPrices += price
@@ -47,24 +41,37 @@ class Product:
         self.prices += [price]
         self.timeStamp += [time]
 
+    def update_product(self, price=None, quantity=None, time=None):
+
+        if price is None:
+            price = self.prices[self.updateCounter - 1]
+        if quantity is None:
+            quantity = self.quantity[self.updateCounter  - 1]
+        if time is None:
+            time = self.timeStamp[self.updateCounter  - 1]
+        self.updateCounter += 1
+        self.set_product(price, quantity, time)
+
     def get_average_price(self):
+
         return self.totalPrices / self.updateCounter
         #Avp = average_price = sum of prices / # prices
         #se face dupa set_products
 
     def average_price_change(self):
-        return (self.currentPrice - self.initialPrice) / self.currentTimeStamp
-        #ACP = average price change = (price[i] - price[0]) / t[i]
+        if self.timeStamp[self.updateCounter  - 1] == self.timeStamp[0]:
+            return 0
+        return (self.prices[self.updateCounter  - 1] - self.prices[0]) / \
+               (self.timeStamp[self.updateCounter  - 1] - self.timeStamp[0])
+        #ACP = average price change = (price[i] - price[0]) / (t[i] - t[0])
         # se face dupa set_product
 
     def get_average_daily_distribution(self):
-        return self.totalQuantity / self.currentTimeStamp
-        #D = Average daily_Distribution = total_quantity / t[i]
-        #se face dupa set_product
-
-    def get_daily_distribution(self):
-        return self.currentQuantity / (self.currentTimeStamp - self.lastTimeStamp)
-        #d = Daily_distribution = quantity[i]] / (t[i] - t[i - 1])
+        if absoluteTime == self.timeStamp[0]:
+            return -1
+        return (self.totalQuantity - self.quantity[self.updateCounter - 1]) / \
+               (absoluteTime - self.timeStamp[0])
+        #D = Average daily_Distribution = total_quantity without the last buy / (time passed from the first buy)
         #se face dupa set_product
 
     def get_future_price(self, time):
@@ -90,7 +97,7 @@ class Product:
         def eval(x, y, r):
             a = coeficiente(x, y)
             a.astype(float)
-            n = len( a ) - 1
+            n = len(a) - 1
             temp = a[n]
             for i in range( n - 1, -1, -1 ):
                 temp = temp * ( r - x[i] ) + a[i]
@@ -98,33 +105,24 @@ class Product:
         return eval(self.timeStamp, self.prices, time)
         #returneaza pretul unui obiect la momentul de timp time 
 
-
-
     def get_expense_over_a_week(self):
         avgDailyDistr = self.get_average_daily_distribution()
         ans = 0.0
         for index in range(1, 8):
-            ans += avgDailyDistr * self.get_future_price(self.currentTimeStamp + index)
+            ans += avgDailyDistr * self.get_future_price(absoluteTime + index)
         return ans
         # e(x) = Expense of product x over a week = FP(T+1) * D + FP(T + 2) * D +... + FP(T+7) * D
 
-
-    def update_product(self, price = None, quantity = None, time = None):
-        
-        if price is None:
-            price = self.currentPrice
-        if quantity is None:
-            quantity = self.currentQuantity
-        if time is None:
-            time = self.currentTimeStamp
-
-        timeDiff = self.currentTimeStamp - time
-
-        dailyDistribution = quantity / timeDiff
-
-        newPriceDerivateValue = (self.currentPrice - price) / timeDiff
-
-        self.set_product(price, quantity, time)
+    def to_dict(self):
+        ans = dict()
+        ans['updateCounter'] = self.updateCounter
+        ans['totalQuantity'] = self.totalQuantity
+        ans['totalPrices'] = self.totalPrices
+        ans['quantity'] = self.quantity
+        ans['timeStamp'] = self.timeStamp
+        ans['prices'] = self.prices
+        ans['name'] = self.name
+        return ans
 
 
 class ProductList:
@@ -134,7 +132,7 @@ class ProductList:
     def add_product(self, name, price, quantity, time):
 
         if self.productList.get(name) is None:
-            self.productList[name] = Product(price, quantity, time)
+            self.productList[name] = Product(name, price, quantity, time)
         else:
             self.productList[name].update_product(price, quantity, time)
 
