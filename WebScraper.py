@@ -1,78 +1,146 @@
 import requests
 import smtplib
 from bs4 import BeautifulSoup
+import smtplib
 
-URL = 'https://carrefour.ro/it-c/telefoane-tablete-gadget-uri/telefonie-fixa-si-teleconferinta'
+store = ["emag", "carrefour", "auchan"]
 
-content = requests.get(URL)
-soup = BeautifulSoup(content.text, 'html.parser')
-#
-# elem = soup.find_all("span", class_="price", recursive=True)
-# price_list =[]
-# for it in elem:
-#     pret = it.get_text().strip()
-#     pret = pret.replace(',','.')
-#     converted_pret = float(pret[:-4])
-#     price_list.append(converted_pret)
-# print(price_list)
-# print(min(price_list))
+def find_minimum(search):
 
-result = []
+    price = []
+    search = search.split()
+    length = len(search)
 
-def find_all_objects(soup, tagType, attr, attrValue):
-    elements = soup.find_all()
+    if length > 1:
+        value = ""
+        for i in range(length):
+            if i == 0:
+                value += search[0]
+            else:
+                value += "+" + search[i]
+    else:
+        search = search[0]
 
-    if len(elements) == 0:
-        result.append(soup.text)
+    #emag
+    URL = "https://www.emag.ro/search/" + search + "?ref=effective_search"
+    #"https://www.emag.ro/search/" + search
+    content = requests.get(URL)
+    soup = BeautifulSoup(content.text, 'html.parser')
+    rez = soup.find_all("p", attrs="product-new-price")
+    minim = None
 
-    for elem in elements:
-        try:
-            if elem.name == tagType:
-                #print(elem)
-                if elem.get(attr) is not None:
-                    for attribute in elem[attr]:
-                        if attribute == attrValue:
-                            find_all_objects(elem, tagType, attr, attrValue)
-                # if elem.attrs.get(attr) is not None or attr is None:
-                #     if elem.attrs.get(attr) == attrValue or attrValue is None:
-                #         result.append(elem.string)
-        except:
-            print("Nu e afisabil")
+    for elem in rez:
 
+        elem = elem.contents
 
-find_all_objects(soup, "span", "class", "price")
+        if len(elem) >= 2:
+            fractie = elem[1].text
+            pret = float(elem[0] + "." + fractie)
 
-minim = None
-for elem in result:
-
-    pret = elem.strip()
-    pret = pret.replace(',','.')
-    pret = float(pret[:-4])
+            if minim is None:
+                minim = pret
+            elif minim > pret:
+                minim = pret
 
     if minim is None:
-        minim = pret
-    elif minim > pret:
-        minim = pret
+        price.append(0)
+    else:
+        price.append(minim)
 
 
-print(minim)
+    # carrefour
+    URL = "https://www.emag.ro/search/" + search
+    content = requests.get(URL)
+    soup = BeautifulSoup(content.text, 'html.parser')
+    rez = soup.find_all("span", attrs="price")
+    minim = None
 
-def send_mail():
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.ehlo()
-    server.login('food.tracker.prices@gmail.com','mqgjzndoxjhmlzbk')
-    subject = 'Smallest price'
-    body = 'Check the link: '
-    msg = f"Subject: {subject}\n\n{body}"
-    server.sendmail(
-        'food.tracker.prices@gmail.com',
-        'mihai.bulaceanu@gmail.com',
-        msg
-    )
-    print('SENT')
+    for elem in rez:
 
-    server.quit()
+        pret = elem.text.strip()
+        pret = pret.split("Lei/bucata")[0]
+        pret = pret.replace(",", ".")
+        pret = float(pret)
 
-send_mail()
+        if minim is None:
+             minim = pret
+        elif minim > pret:
+             minim = pret
+
+    if minim is None:
+        price.append(0)
+    else:
+        price.append(minim)
+
+    #auchan
+    URL = "https://www.auchan.ro/store/search/?text=" + search
+    content = requests.get(URL)
+    soup = BeautifulSoup(content.text, 'html.parser')
+    rez = soup.find_all("span")
+    attr = "data-price"
+    minim = None
+
+    for elem in rez:
+        if elem.get(attr) is not None:
+            pret = float(elem[attr])
+
+            if minim is None:
+                minim = pret
+            elif minim > pret:
+                minim = pret
+
+    if minim is None:
+        price.append(0)
+    else:
+        price.append(minim)
+
+    #print(*price)
+
+    minim = None
+
+    if minim is None and price[0] != 0:
+        minim = price[0]
+
+    if (minim is None or minim > price[1]) and price[1] != 0:
+        minim = price[1]
+
+    if (minim is None or minim > price[2]) and price[2] != 0:
+        minim = price[2]
+
+    if minim is None:
+        return "no", -1
+    else:
+        for i in range(3):
+            if minim == price[i]:
+                return store[i], minim
+
+vec = ['lapte', 'apa', 'vin']
+
+for obj in vec:
+    print(find_minimum(obj))
+
+# def send_mail(input, sender, password, receiver):
+#     for obj in input:
+#
+#         store, minim = find_minimum(obj)
+#
+#         server = smtplib.SMTP('smtp.gmail.com', 587)
+#         server.ehlo()
+#         server.starttls()
+#         server.ehlo()
+#         server.login(sender, password)
+#
+#         subject = 'Smallest price'
+#         body = 'Hello!\n' \
+#                'Check the store: {0}! This is where you can find the best price ever {1} for the item you are willing to buy! \n' \
+#                'We have the best price solutions for your budget! Same quality for less! Maximize your satisfaction and save your money!\n' \
+#                'Best wishes!\n' \
+#                'Food Tracker Team:)'.format(store,minim)
+#
+#         msg = f"Subject: {subject}\n\n{body}"
+#         server.sendmail('food.tracker.prices@gmail.com',receiver,msg)
+#         print('SENT')
+#
+#         server.quit()
+#
+# send_mail(["lapte"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'johnny.savu.99@gmail.com')
