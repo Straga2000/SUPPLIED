@@ -1,5 +1,6 @@
 #de la product la dict
 import numpy as np
+from databaseProcesses import *
 
 timeLengths = {"DAY" : 1, "WEEK" : 7, "MONTH": 28}
 absoluteTime = 1
