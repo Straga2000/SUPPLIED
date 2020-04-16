@@ -1,10 +1,10 @@
-#de la product la dict
+# de la product la dict
 import numpy as np
 from databaseProcesses import *
 
-timeLengths = {"DAY" : 1, "WEEK" : 7, "MONTH": 28}
+timeLengths = {"DAY": 1, "WEEK": 7, "MONTH": 28}
 absoluteTime = 1
-important_category = ("water","meds")
+important_category = ("apa", "medicamente")
 
 
 def updateTime(type=timeLengths["DAY"]):
@@ -21,12 +21,14 @@ def updateTime(type=timeLengths["DAY"]):
 
 
 '''  ----------------------------------------- PRODUCT --------------------------------------- '''
+
+
 class Product:
-    def __init__(self,category='', name = '',price = 0.0, quantity = 0, time = 0):
+    def __init__(self, category='', name='', price=0.0, quantity=0, time=0):
         self.updateCounter = 1
         self.category = category
         self.priority = 5
-        #on a scale from 1 to 10
+        # on a scale from 1 to 10
 
         self.name = name
 
@@ -52,64 +54,65 @@ class Product:
         if price is None:
             price = self.prices[self.updateCounter - 1]
         if quantity is None:
-            quantity = self.quantity[self.updateCounter  - 1]
+            quantity = self.quantity[self.updateCounter - 1]
         if time is None:
-            time = self.timeStamp[self.updateCounter  - 1]
+            time = self.timeStamp[self.updateCounter - 1]
         self.updateCounter += 1
         self.set_product(price, quantity, time)
 
     def get_average_price(self):
 
         return self.totalPrices / self.updateCounter
-        #Avp = average_price = sum of prices / # prices
-        #se face dupa set_products
+        # Avp = average_price = sum of prices / # prices
+        # se face dupa set_products
 
     def average_price_change(self):
-        if self.timeStamp[self.updateCounter  - 1] == self.timeStamp[0]:
+        if self.timeStamp[self.updateCounter - 1] == self.timeStamp[0]:
             return 0
-        return (self.prices[self.updateCounter  - 1] - self.prices[0]) / \
-               (self.timeStamp[self.updateCounter  - 1] - self.timeStamp[0])
-        #ACP = average price change = (price[i] - price[0]) / (t[i] - t[0])
+        return (self.prices[self.updateCounter - 1] - self.prices[0]) / \
+               (self.timeStamp[self.updateCounter - 1] - self.timeStamp[0])
+        # ACP = average price change = (price[i] - price[0]) / (t[i] - t[0])
         # se face dupa set_product
 
     def get_average_daily_distribution(self):
         if absoluteTime == self.timeStamp[0]:
-            return -1
+            return 0
         return (self.totalQuantity - self.quantity[self.updateCounter - 1]) / \
                (absoluteTime - self.timeStamp[0])
-        #D = Average daily_Distribution = total_quantity without the last buy / (time passed from the first buy)
-        #se face dupa set_product
+        # D = Average daily_Distribution = total_quantity without the last buy / (time passed from the first buy)
+        # se face dupa set_product
 
     def get_future_price(self, time):
 
-        #returneaza coeficientii polinomului de interpolare
-        def coeficiente(x,y):
+        # returneaza coeficientii polinomului de interpolare
+        def coeficiente(x, y):
 
             x = np.array(x, dtype=np.float32)
             y = np.array(y, dtype=np.float32)
             n = len(x)
-            F = np.zeros((n,n), dtype=float)
+            F = np.zeros((n, n), dtype=float)
             b = np.zeros(n)
-            for i in range(0,n):
-                F[i,0]=y[i]
+            for i in range(0, n):
+                F[i, 0] = y[i]
             for j in range(1, n):
-                for i in range(j,n):
-                    F[i,j] = float(F[i,j-1]-F[i-1,j-1])/float(x[i]-x[i-j])
-            for i in range(0,n):
-                b[i] = F[i,i]
-            return np.array(b) # return an array of coefficient
-        
-        #returneaza valoarea polinomului de interpolare in punctul r
+                for i in range(j, n):
+                    F[i, j] = float(F[i, j - 1] - F[i - 1, j - 1]) / float(x[i] - x[i - j])
+            for i in range(0, n):
+                b[i] = F[i, i]
+            return np.array(b)  # return an array of coefficient
+
+        # returneaza valoarea polinomului de interpolare in punctul r
         def eval(x, y, r):
             a = coeficiente(x, y)
             a.astype(float)
             n = len(a) - 1
             temp = a[n]
-            for i in range( n - 1, -1, -1 ):
-                temp = temp * ( r - x[i] ) + a[i]
-            return abs(temp) # return the y_value interpolation
+            for i in range(n - 1, -1, -1):
+                temp = temp * (r - x[i]) + a[i]
+            return abs(temp)  # return the y_value interpolation
+
         return eval(self.timeStamp, self.prices, time)
-        #returneaza pretul unui obiect la momentul de timp time 
+        # returneaza pretul unui obiect la momentul de timp time
 
     def get_expense_over_a_week(self):
 
@@ -121,9 +124,15 @@ class Product:
         return abs(ans)
         # e(x) = Expense of product x over a week = FP(T+1) * D + FP(T + 2) * D +... + FP(T+7) * D
 
-    def change_priority(self, value):
-        self.priority = value
+    def update_priority(self, value):
+        self.priority += value
+        if self.priority > 10 :
+            self.priority = 10
+        if self.priority < 0:
+            self.priority = 0
 
+    def set_priority(self, value):
+        self.priority = value
 
     def to_dict(self):
         ans = dict()
@@ -136,19 +145,20 @@ class Product:
         ans['name'] = self.name
         return ans
 
+
 '''  ----------------------------------------- PRODUCTLIST ---------------------------------------  '''
+
 
 class ProductList:
     def __init__(self):
         self.productList = {}
 
     def add_product(self, category, name, price, quantity, time):
-
         if self.productList.get(name) is None:
             self.productList[name] = Product(category, name, price, quantity, time)
             # if the product is water or meds, set the priority to max
-            if important_category[0] in category or important_category[1] in category:
-                self.productList[name].change_priority(10)
+            if category in important_category[0] or category in important_category[0]:
+                self.productList[name].set_priority(10)
         else:
             self.productList[name].update_product(price, quantity, time)
 
@@ -172,7 +182,6 @@ class ProductList:
             for key in self.productList:
                 if self.productList[key].get_average_daily_distribution() >= value:
                     newList[key] = self.productList[key]
-
             return newList
 
     def to_dict(self):
@@ -180,20 +189,24 @@ class ProductList:
         for key in self.productList.keys():
             ans[key] = self.productList[key].to_dict()
         return ans
-#-------------------------------- expense methods ---------------------------
+
+    # -------------------------------- expense methods ---------------------------
     def get_expense_over_a_week(self):
         ans = 0.0
         for item in self.productList.keys():
             ans += self.productList[item].get_expense_over_a_week()
+
         return ans
 
     def get_expense_over_a_month(self):
-        return self.get_expense_over_a_week()
+        return 4 * self.get_expense_over_a_week()
 
 
 ''' ---------------------------------------- USER -------------------------------------------- '''
+
+
 class User:
-    def __init__(self, first_name, last_name ='', email = '', id = '', password_hash = '', budget = 0.0):
+    def __init__(self, first_name='', last_name='', email='', id='', password_hash='', budget=0.0):
         self.firs_name = first_name
         self.last_name = last_name
         self.email = email
@@ -205,23 +218,65 @@ class User:
     def update_budget(self, val):
         self.budget = val
 
-    def add_item(self,category, name, price, quantity, time):
+    def add_item(self, category, name, price, quantity, time):
         self.product_list.add_product(category, name, price, quantity, time)
 
-    #changes the priority of an item based on the swap left or right that he made
-    def change_item_priority(self, name, value):
-        for key in self.product_list.keys():
-            if key == name:
-                self.product_list[key].change_priority(value)
-                break
     def get_remove_suggestion(self):
+        expense = self.product_list.get_expense_over_a_month()
+
         if self.budget >= self.product_list.get_expense_over_a_month():
             return "Well done!!!"
         else:
-            self.product_list \
-                = self.product_list.sort(key = lambda x:
-            (x.priority, x.get_average_daily_distribution(), x.get_average_price()))
+            vec = []
+            for it in self.product_list.productList.keys():
+                vec += [(self.product_list.productList[it].name, self.product_list.productList[it].priority,
+                         self.product_list.productList[it].get_average_daily_distribution(),
+                         self.product_list.productList[it].get_average_price())]
+            vec.sort(key=lambda x: (x[1], x[2], x[3]))
+
+            ans = []
+            sum = 0.0
+
+            for item in vec:
+                if sum + self.budget > expense:
+                    return ans
+                response = 0
+                if (self.product_list.get_product(item[0]).priority < 0):
+                    #auto delete the item
+                    response = 1
+                else:
+                    pass
+                    # o sa intrebam userul daca e de acord cu stergerea produsului
+                    # response = get_swipe(self.product_list.get_product(item[0]))
+                if response == 1:
+                    self.product_list.get_product(item[0]).update_priority(-1)
+                    sum += self.product_list.get_product(item[0]).get_expense_over_a_week() * 4
+                    ans += [item]
+                else:
+                    self.product_list.get_product(item[0]).update_priority(1)
+            return ans
+
+    def print_removed_items(self):
+        response = self.get_remove_suggestion()
+
+        if response == 'Well done!!!':
+            print("No need to remove items")
+        else:
+            print("Items to be removed from your shopping list")
+            for it in response:
+                print(it[0])
 
 
-
-
+user = User("Bob", "bob", "Bob", "Bob", "Bob", 14444.0)
+user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+updateTime("DAY")
+user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+updateTime("DAY")
+user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+updateTime("DAY")
+user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+updateTime("DAY")
+user.add_item("mancare", "pui", 50.0, 1, absoluteTime)
+updateTime("DAY")
+user.add_item("mancare", "pui", 50.0, 5, absoluteTime)
+user.print_removed_items()
