@@ -15,7 +15,6 @@ class Database:
         self.refresh_collection_list()
 
     def refresh_database_list(self):
-        print(self.databaseList)
         self.databaseList = self.client.list_database_names()
 
     def refresh_collection_list(self):
@@ -23,14 +22,12 @@ class Database:
 
     def create_database(self, database_name):
         self.database = self.client[database_name]
-        if database_name not in self.databaseList:
-            self.refresh_database_list()
-            self.create_collection("dummy")
+        self.refresh_database_list()
+        self.create_collection("dummy")
 
     def create_collection(self, name):
-        if name not in self.collectionList:
-            self.refresh_collection_list()
-            self.database[name].insert_one({"type": "dummmy"})
+        self.refresh_collection_list()
+        self.database[name].insert_one({"type": "dummmy"})
 
     def insert_one_in_collection(self, name, dict):
         return self.database[name].insert_one(dict)
