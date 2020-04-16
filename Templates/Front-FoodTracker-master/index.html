@@ -61,8 +61,7 @@
           <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="./assets/img/theme/team-1-800x800.jpg
-">
+                <img alt="Image placeholder" src="./assets/img/theme/team-1-800x800.jpg">
               </span>
             </div>
           </a>
@@ -112,7 +111,7 @@
             </div>
           </div>
         </div>
-        <!-- Form -->
+        <!-- Search bar -->
         <form class="mt-4 mb-3 d-md-none">
           <div class="input-group input-group-rounded input-group-merge">
             <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="Search" aria-label="Search">
@@ -153,7 +152,6 @@
         </ul>
         <!-- Divider -->
         <hr class="my-3">
-        <!-- Heading -->
         <!-- Navigation -->
         <ul class="navbar-nav">
           <li class="nav-item active active-pro">
@@ -237,13 +235,13 @@
                 <button type="button" class="btn btn-secondary">Daily items</button>
                 <button type="button" class="btn btn-secondary">Weekly items</button>
                 <button type="button" class="btn btn-secondary">Monthly items</button>
-                <button type="button" class="btn btn-secondary mr">Show forecast</button>
-              </div> 
+              </div>  
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div class="container-fluid mt--7">
       <!-- Table -->
       <div class="row">
@@ -257,7 +255,8 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Product</th>
-                    <th scope="col">Last quantity bought</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Forecast</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -266,18 +265,27 @@
                     <th scope="row">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">Argon Design System</span>
+                          <span class="mb-0 text-sm">Milk</span>
                         </div>
                       </div>
                     </th>
                     <td>
-                      $2,500 USD
+                      3
+                    </td>
+                    <td>
+                      <div class="col">
+                        1 week left
+                      </div>
                     </td>
                     <td class="text-right">
                       <div class="dropdown">
                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <i class="fas fa-ellipsis-v"></i>
                         </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="examples/update.html">Update</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -288,40 +296,131 @@
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </div>
 
+    
+
+    <!--Floating action button -->
     <style>
-      .kc_fab_main_btn{
-        background-color:#F44336;
-        width:60px;
-        height:60px;
-        border-radius:100%;
-        background:#F44336;
-        border:none;
-        outline:none;
-        color:#FFF;
-        font-size:36px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        transition:.3s;  
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-    
-        position: fixed !important;
-        right: 60px;
-        bottom: 45px;
-      }
-      .kc_fab_main_btn:focus {
-        transform:scale(1.1);
-        transform:rotate(45deg);
-        -ms-transform: rotate(45deg);
-        -webkit-transform: rotate(45deg);
-      }
-      
-    
-    </style>
-      
-      <button class="kc_fab_main_btn">+</button>
-    
+
+.open-button{
+      background-color:#F44336;
+      width:60px;
+      height:60px;
+      border-radius:100%;
+      background:#F44336;
+      border:none;
+      outline:none;
+      color:#FFF;
+      font-size:36px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      transition:.3s;  
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+      position: fixed !important;
+      right: 60px;
+      bottom: 45px;
+    }
+    .open-button:focus {
+      transform:scale(1.1);
+      transform:rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+    }
+
+     
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+
+
+<button class="open-button" onclick="openForm()">+</button>
+
+<div class="form-popup" id="myForm">
+  <form action="/action_page.php" class="form-container">
+    <h1>Add a product</h1>
+
+    <label for="name"><b>Name</b></label>
+    <input type="text" placeholder="Enter Name" name="name" required>
+
+    <label for="quantity"><b>Quantity</b></label>
+    <input type="text" placeholder="Enter Quantity" name="quantity" required>
+
+    <label for="price"><b>Price</b></label>
+    <input type="text" placeholder="Enter Price" name="price" required>
+
+    <button type="button" class="btn">Add to your supply</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+
+
+
 
   <!--   Core   -->
   <script src="./assets/js/plugins/jquery/dist/jquery.min.js"></script>
