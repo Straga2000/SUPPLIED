@@ -145,6 +145,15 @@ class Product:
         ans['name'] = self.name
         return ans
 
+    def set_from_dict(self, obj):
+        self.updateCounter = obj['updateCounter']
+        self.totalQuantity = obj['totalQuanitity']
+        self.totalPrices = obj['totalPrices']
+        self.quantity = obj['quantity']
+        self.timeStamp = obj['timeStamp']
+        self.prices = obj['prices']
+        self.name = obj['name']
+
 
 '''  ----------------------------------------- PRODUCTLIST ---------------------------------------  '''
 
@@ -168,6 +177,9 @@ class ProductList:
         else:
             return None
 
+    def delete_product(self, name):
+        self.productList[name] = None
+
     def filter(self, type="None"):
         value = 0
         for key in timeLengths:
@@ -189,6 +201,11 @@ class ProductList:
         for key in self.productList.keys():
             ans[key] = self.productList[key].to_dict()
         return ans
+
+    def set_from_dict(self, obj):
+        for key in obj:
+            self.productList[key] = Product()
+            self.productList[key].set_from_dict(obj[key])
 
     # -------------------------------- expense methods ---------------------------
     def get_expense_over_a_week(self):
@@ -220,8 +237,17 @@ class User:
             self.product_list = product_list
 
     def to_dict(self):
-        return {"first_name": self.first_name, "last_name": self.first_name, "email": self.email, "id": self.id,
-                "pass": self.password_hash, "budget": self.budget, "product_list": self.product_list}
+        return {"first_name": self.first_name, "last_name": self.last_name, "email": self.email, "id": self.id,
+                "pass": self.password_hash, "budget": self.budget, "product_list": self.product_list.to_dict()}
+
+    def set_from_dict(self, obj):
+        self.first_name = obj["first_name"]
+        self.last_name = obj["last_name"]
+        self.email = obj["email"]
+        self.id = obj["id"]
+        self.password_hash = obj["pass"]
+        self.budget = obj["budget"]
+        self.product_list.set_from_dict(obj["product_list"].set_from_dict())
 
     def update_budget(self, val):
         self.budget = val
