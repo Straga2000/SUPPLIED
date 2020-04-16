@@ -206,14 +206,22 @@ class ProductList:
 
 
 class User:
-    def __init__(self, first_name='', last_name='', email='', id='', password_hash='', budget=0.0):
-        self.firs_name = first_name
+    def __init__(self, first_name='', last_name='', email='', id='', password_hash='', budget=0.0, product_list = None):
+        self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.id = id
         self.password_hash = password_hash
         self.budget = budget
-        self.product_list = ProductList()
+
+        if product_list is None:
+            self.product_list = ProductList()
+        else:
+            self.product_list = product_list
+
+    def to_dict(self):
+        return {"first_name": self.first_name, "last_name": self.first_name, "email": self.email, "id": self.id,
+                "pass": self.password_hash, "budget": self.budget, "product_list": self.product_list}
 
     def update_budget(self, val):
         self.budget = val
@@ -267,16 +275,16 @@ class User:
                 print(it[0])
 
 
-user = User("Bob", "bob", "Bob", "Bob", "Bob", 14444.0)
-user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
-updateTime("DAY")
-user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
-updateTime("DAY")
-user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
-updateTime("DAY")
-user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
-updateTime("DAY")
-user.add_item("mancare", "pui", 50.0, 1, absoluteTime)
-updateTime("DAY")
-user.add_item("mancare", "pui", 50.0, 5, absoluteTime)
-user.print_removed_items()
+# user = User("Bob", "bob", "Bob", "Bob", "Bob", 14444.0)
+# user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+# updateTime("DAY")
+# user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+# updateTime("DAY")
+# user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+# updateTime("DAY")
+# user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
+# updateTime("DAY")
+# user.add_item("mancare", "pui", 50.0, 1, absoluteTime)
+# updateTime("DAY")
+# user.add_item("mancare", "pui", 50.0, 5, absoluteTime)
+# user.print_removed_items()

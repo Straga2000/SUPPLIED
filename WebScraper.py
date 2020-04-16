@@ -161,5 +161,5 @@ def send_mail(input, sender, password, receiver):
     server.quit()
 
 
-send_mail(["nuci", "calculator", "creioane", "laptop"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'alemsb29@gmail.com')
-send_mail(["geaca", "laptop", "prune", "masina"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'johnny.savu.99@gmail.com')
+#send_mail(["nuci", "calculator", "creioane", "laptop"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'alemsb29@gmail.com')
+#send_mail(["geaca", "laptop", "prune", "masina"],'food.tracker.prices@gmail.com', 'mqgjzndoxjhmlzbk', 'johnny.savu.99@gmail.com')
