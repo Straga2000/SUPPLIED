@@ -1,18 +1,16 @@
 import pymongo
 
 class Database:
-    def __init__(self, database_name="Foodtracker", url= "mongodb+srv://supplied:parola@cluster0-0hs4a.mongodb.net/test?retryWrites=true&w=majority"):
+    def __init__(self, url= "mongodb+srv://supplied:parola@cluster0-0hs4a.mongodb.net/test?retryWrites=true&w=majority"):
 
         self.client = pymongo.MongoClient(url)
 
         self.databaseList = None
         self.refresh_database_list()
 
-        self.database = None
-        try:
-            self.create_database(database_name)
-        except:
-            print("Exista")
+        self.database = self.client["Foodtrack"]
+
+        self.refresh_database_list()
 
         self.collectionList = None
         self.refresh_collection_list()
@@ -49,7 +47,7 @@ class Database:
 
     def print_collection(self, name):
         for x in self.database[name].find():
-            print (x)
+            print(x)
 
     def query_many(self, name, query=None):
         if query is None:
@@ -69,4 +67,8 @@ class Database:
         else:
             return self.database[name].count_documents(query)
 
+
 db = Database()
+db.create_collection("nothing")
+db.insert_one_in_collection("nothing", {"name" : "one"})
+db.print_collection("nothing")
