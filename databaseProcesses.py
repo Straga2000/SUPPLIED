@@ -68,7 +68,7 @@ class Database:
             return self.database[name].count_documents(query)
 
 
-db = Database()
-db.create_collection("nothing")
-db.insert_one_in_collection("nothing", {"name" : "one"})
-db.print_collection("nothing")
+#db = Database()
+#db.create_collection("nothing")
+#db.insert_one_in_collection("nothing", {"name" : "one"})
+#db.print_collection("nothing")

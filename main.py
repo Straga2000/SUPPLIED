@@ -9,8 +9,8 @@ class siteFunctions:
         self.siteEmail = 'food.tracker.prices@gmail.com'
         self.sitePassword = 'mqgjzndoxjhmlzbk'
 
-        #self.database = Database()
-        #self.database.create_collection("users")
+        self.database = Database()
+        self.database.create_collection("users")
         self.userList = {}
 
     def security(self, name):
@@ -35,7 +35,7 @@ class siteFunctions:
         id = self.security(password_hash)
         user = User(first_name, last_name, email, id, password_hash)
         self.userList[id] = user
-        #self.database.insert_one_in_collection("users", user.to_dict())
+        self.database.insert_one_in_collection("users", user.to_dict())
 
     def add_product(self, id, category, name, price, quantity, time):
         self.userList[id].add_item(category, name, price, quantity, time)
