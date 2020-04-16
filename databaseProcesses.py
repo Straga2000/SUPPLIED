@@ -1,7 +1,7 @@
 import pymongo
 
 class Database:
-    def __init__(self, database_name= "Food Tracker", url= 'mongodb+srv://straga:zeus16hades@maincluster-aybxn.mongodb.net/test?retryWrites=true&w=majority'):
+    def __init__(self, database_name="FoodTracker", url= "mongodb+srv://supplied:parola@cluster0-0hs4a.mongodb.net/test?retryWrites=true&w=majority"):
 
         self.client = pymongo.MongoClient(url)
 
@@ -15,6 +15,7 @@ class Database:
         self.refresh_collection_list()
 
     def refresh_database_list(self):
+        print(self.databaseList)
         self.databaseList = self.client.list_database_names()
 
     def refresh_collection_list(self):
@@ -67,3 +68,6 @@ class Database:
             return self.database[name].count_documents()
         else:
             return self.database[name].count_documents(query)
+
+
+db = Database()
