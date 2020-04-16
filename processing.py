@@ -253,6 +253,7 @@ class User:
         self.budget = val
 
     def add_item(self, category, name, price, quantity, time):
+        absoluteTime = time
         self.product_list.add_product(category, name, price, quantity, time)
 
     def get_remove_suggestion(self):
