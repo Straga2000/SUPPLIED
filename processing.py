@@ -20,7 +20,7 @@ def updateTime(type=timeLengths["DAY"]):
     return absoluteTime
 
 
-'''  ----------------------------------------- PRODUCT ---------------------------------------'''
+'''  ----------------------------------------- PRODUCT --------------------------------------- '''
 class Product:
     def __init__(self,category='', name = '',price = 0.0, quantity = 0, time = 0):
         self.updateCounter = 1
@@ -218,7 +218,10 @@ class User:
         if self.budget >= self.product_list.get_expense_over_a_month():
             return "Well done!!!"
         else:
-            pass
+            self.product_list \
+                = self.product_list.sort(key = lambda x:
+            (x.priority, x.get_average_daily_distribution(), x.get_average_price()))
+
 
 
 

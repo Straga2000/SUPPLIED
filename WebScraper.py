@@ -1,5 +1,4 @@
 import requests
-import smtplib
 from bs4 import BeautifulSoup
 import smtplib
 
