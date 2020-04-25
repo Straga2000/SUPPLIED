@@ -19,6 +19,8 @@ product_list = [
     {"product": "Paine", "quantity":2, "forecast":1}
 ]
 
+
+
 #daily_list
 
 #fiecare din urmatoarele lista contine un dictionar cu name, average_price si monthly_expense
@@ -33,6 +35,9 @@ daily_expense = Site.get_daily_forecast(Site.security("Bob"))
 weekly_expense = Site.get_week_forecast(Site.security("Bob"))
 monthly_expense = Site.get_month_forecast(Site.security("Bob"))
 
+remove_list = Site.get_remove_list(Site.security("Bob"))
+
+print(remove_list)
 
 print('-----------------------------------------------')
 

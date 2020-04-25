@@ -281,7 +281,7 @@ class ProductList:
 
 
 class User:
-    def __init__(self, first_name='', last_name='', email='', id='', password_hash='', budget=0.0, product_list = None):
+    def __init__(self, first_name='', last_name='', email='', id='', password_hash='', budget=82.0, product_list = None):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -336,7 +336,7 @@ class User:
             for item in vec:
                 if sum + self.budget > expense:
                     return ans
-                response = 0
+                response = 1
                 if (self.product_list.get_product(item[0]).priority < 0):
                     #auto delete the item
                     response = 1

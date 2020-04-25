@@ -61,6 +61,9 @@ class siteFunctions:
     
     def get_items_list(self, id, mode = 'daily'):
         return self.userList[id].get_items_list(mode)
+    
+    def get_remove_list(self, id):
+        return self.userList[id].get_remove_suggestion()
 
 
     
