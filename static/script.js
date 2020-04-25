@@ -2,19 +2,27 @@
 
 
 
-document.getElementById("buton").addEventListener("click", getInfo);
+document.getElementById("sendData").addEventListener("click", getInfo);
 
 function getInfo()
 {
-    let info = document.getElementById("text").value;
-    console.log(info);
-    document.getElementById("text").value = "";
+    console.log("merge");
+    let sendData = {
+        product : document.getElementById("product").value,
+        quantity : document.getElementById("quantity").value,
+        price : document.getElementById("price").value
+
+    };
+    //reinit formulare
+    document.getElementById("product").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("price").value = "";
     $.ajax({
         type: "POST",
-        url: "/receiver",
-        contentType: "json",
+        url: "/post",
+        contentType: "application/json",
+        data: JSON.stringify(sendData),
         dataType: "json",
-        data: JSON.stringify({"location": info}),
         success: function(response) {
             console.log(response);
         },

@@ -24,10 +24,13 @@ print(posts)
 def hello_world():
     return render_template("table.html", posts=posts)
 
-@app.route("/receiver/", methods =['GET','POST'])
+
+@app.route("/post", methods =['GET','POST'])
 def worker():
     data = request.get_json()
     print(data)
+    posts.append(data)
+    return hello_world()
 
 # @app.route('/register', methods=['GET', 'POST'])
 # def register():

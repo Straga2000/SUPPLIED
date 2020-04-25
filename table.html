@@ -25,8 +25,13 @@
   {% endfor %}
 </table>
 
-	<button type='button' id = 'buton'>cmon</button>
-	<input type='text' id='text'>
+	<input type='text' id='product' placeholder="product">
+	<br>
+	<input type='text' id='quantity' placeholder="quantity">
+	<br>
+	<input type='text' id='price' placeholder="price">
+	<br>
+	<button type='button' id = 'sendData'>Add Product</button>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src = '{{ url_for("static", filename="script.js") }}'></script>
 </body>
