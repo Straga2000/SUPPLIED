@@ -1,8 +1,9 @@
     @charset "utf-8";
+
     html {width: 100%; height: 100%;
-        margin: 0; padding: 0;}
+          margin: 0; padding: 0;}
     
-    body {height: 100%; width: 100%;
+    body {width: 100%;
           margin: 0; padding: 0 5%;
           font-size: 1.5rem; line-height: 1.6em;
           background-color: burlywood}
@@ -11,17 +12,21 @@
     
     h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-weight: normal;}
 
-    table{height: 40%; width: 100%; margin: 0; border-collapse: collapse; color: #391f69}
+    table{height: 100%; width: 100%; margin: 0; border-collapse: collapse;
+          color: #391f69; text-align: center;}
     table tr{height: 50px; width: 100%;}
     table tr:nth-child(2n) {width: 100%; background-color: #FFBF69ff;}
     table tr:nth-child(2n + 1) {background-color: #7a6f9bff; color: #FFBF69ff}
+    table tr:last-child {border-bottom: #4E5069ff 3px solid;}
 
-    table th {height: 50px; border-right: #4E5069ff 3px solid; color: #FFBF69ff}
+    table th {height: 10%; padding: 2%;
+              border-bottom: #4E5069ff 3px solid; color: #FFBF69ff;}
     table th:first-child {border-left: #4E5069ff 3px solid;}
+    table th:last-child {border-right: #4E5069ff 3px solid;}
 
-    table tr td {padding: 0 1%; margin: 0;
+    table td {padding: 0 1%; margin: 0;
                  border-right: #4E5069ff 3px solid;}
-    table tr td:first-child {border-left: #4E5069ff 3px solid;}
+    table td:first-child {border-left: #4E5069ff 3px solid;}
 
     /*Grid design*/
 
