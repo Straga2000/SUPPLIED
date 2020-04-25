@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect,request
 #from forms import RegistrationForm, LoginForm
 from secrets import token_hex
 from os import *
@@ -20,10 +20,17 @@ for i in range(10):
 
 print(posts)
 
-@app.route("/")
+@app.route("/", methods =['GET','POST'])
 def hello_world():
     return render_template("table.html", posts=posts)
 
+
+@app.route("/post", methods =['GET','POST'])
+def worker():
+    data = request.get_json()
+    print(data)
+    posts.append(data)
+    return hello_world()
 
 # @app.route('/register', methods=['GET', 'POST'])
 # def register():
