@@ -1,34 +1,84 @@
-@charset "utf-8";
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+    @charset "utf-8";
+    html {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        line-height: 1.6em;
+    }
+    
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+    
+    .inline {
+        display: inline-block;
+    }
+    
+    .inline * {
+        display: inline-block;
+    }
+    
+    .inline *:last-child {
+        margin-right: 0;
+    }
+    
+    .product {
+        height: 100%;
+        width: 100%;
+        padding: 5%;
+        text-align: center;
+    }
+    
+    h1 {
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        /*vertical-align: center;*/
+        color: mediumblue;
+    }
+    /*Grid design*/
+    
+    .product_grid {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(auto-fit, 1fr);
+    }
+    
+    .product_attr {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-template-rows: 50px;
+    }
+    
+    .product_attr:nth-child(2n) {
+        background-color: aliceblue;
+    }
+    
+    .product_attr:nth-child(2n+1) {
+        background-color: burlywood;
+    }
+    
+    .product_attr h1 {
+        border: 2px solid;
+        border-color: black;
+    }
+    /*Color design*/
+    /*.product_grid:nth-child(2n) {
+    background-color: #123456;
+    ;
 }
 
-td,
-th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    grid-area: product;
-    background-color: #dd6127;
-}
-
-.product_grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(auto-fit, minmax(230px, 1fr));
-}
-
-.product {
-    name: certain_name;
-    quantity: certain_quantity;
-}
-
-h1 {
-    border: 3px solid yellow;
-    text-align: center;
-}
+.product_grid:nth-child(2n + 1) {
+    background-color: #12e4f6;
+    ;
+}*/
