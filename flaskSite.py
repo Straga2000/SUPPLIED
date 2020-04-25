@@ -30,7 +30,7 @@ def worker():
     data = request.get_json()
     print(data)
     posts.append(data)
-    return hello_world()
+    return redirect('/')
 
 # @app.route('/register', methods=['GET', 'POST'])
 # def register():
@@ -48,5 +48,5 @@ def worker():
 #     return render_template('login.html', title='Login', form=form)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=True)
 
