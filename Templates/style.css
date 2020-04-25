@@ -40,13 +40,11 @@
         text-align: center;
         color: #fff6b4;}
 
-
-     ;
-    $color2: ;
+    /*$color2: ;
     $color3: ;
     $color4: #8b85c1ff;
     $color5: ;
-    $color6: #d4cdf4ff;
+    $color6: #d4cdf4ff;*/
 
     table{width: 100%; margin: 0; border-collapse: collapse;}
     table tr{height: 50px; width: 100%;}
@@ -54,7 +52,7 @@
     table tr:nth-child(2n + 1) {background-color: #685155ff;}
     table th {background-color: #FFBF69ff;}
     table tr td {padding: 0 1%; margin: 0; border-right: #7a6f9bff 3px solid;}
-    table tr td:first-child {border-left:  3px solid;}
+    table tr td:first-child {border-left: #7a6f9bff 3px solid;}
 
     /*Grid design*/
     
