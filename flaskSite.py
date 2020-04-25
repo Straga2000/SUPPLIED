@@ -2,19 +2,27 @@ from flask import Flask, render_template, url_for, flash, redirect
 #from forms import RegistrationForm, LoginForm
 from secrets import token_hex
 from os import *
+from random import choice, randint
 
 #https://stackoverflow.com/questions/31002890/how-to-reference-a-html-template-from-a-different-directory-in-python-flask/31003097
 
 workingDirectory = path.dirname(__file__)
-workingDirectory = workingDirectory + "/Templates/Front-FoodTracker-master"
+#workingDirectory = workingDirectory + "/Templates/Front-FoodTracker-master"
 print(workingDirectory)
 
 app = Flask(__name__, template_folder=workingDirectory)
 
+productName =["miere", "geaca", "nuci", "baloane"]
+posts = []
+
+for i in range(10):
+    posts.append({"product": choice(productName), "quantity": randint(2, 30), "forecast": randint(5, 10)})
+
+print(posts)
 
 @app.route("/")
 def hello_world():
-    return render_template("index.html")
+    return render_template("table.html", posts=posts)
 
 
 # @app.route('/register', methods=['GET', 'POST'])
