@@ -1,52 +1,22 @@
     @charset "utf-8";
-    html {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+    html {width: 100%; height: 100%;
+        margin: 0; padding: 0;}
     
-    body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0 5%;
-        font-size: 1.5rem;
-        line-height: 1.6em;
-        background-color: burlywood
-    }
+    body {height: 100%; width: 100%;
+          margin: 0; padding: 0 5%;
+          font-size: 1.5rem; line-height: 1.6em;
+          background-color: burlywood}
     
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
+    *, *::before, *::after {box-sizing: border-box;}
     
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        margin: 0;
-        font-size: 1.4rem;
-        line-height: normal;
-        font-weight: normal;
-    }
-    
-    h1 {
-        position: center;
-        width: 100%;
-        text-align: center;
-        color: #fff6b4;}
+    h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-weight: normal;}
 
-    table{width: 100%; margin: 0; border-collapse: collapse; color: #391f69}
+    table{height: 40%; width: 100%; margin: 0; border-collapse: collapse; color: #391f69}
     table tr{height: 50px; width: 100%;}
     table tr:nth-child(2n) {width: 100%; background-color: #FFBF69ff;}
-    table tr:nth-child(2n + 1) {background-color: #7a6f9bff; color: : #FFBF69ff}
+    table tr:nth-child(2n + 1) {background-color: #7a6f9bff; color: #FFBF69ff}
 
-    table th {height: 50px; width: 100%;
-              border-right: #4E5069ff 3px solid; color: #FFBF69ff}
+    table th {height: 50px; border-right: #4E5069ff 3px solid; color: #FFBF69ff}
     table th:first-child {border-left: #4E5069ff 3px solid;}
 
     table tr td {padding: 0 1%; margin: 0;
@@ -54,36 +24,18 @@
     table tr td:first-child {border-left: #4E5069ff 3px solid;}
 
     /*Grid design*/
-    
-    .product_grid {
-        position: relative;
+
+    .template_grid
+    {
         display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: repeat(auto-fit, 1fr);
+        grid-template-columns: 1fr 1fr;
+        grid-template: "one two";
     }
-    
-    .product_grid div {
-        position: relative;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        grid-template-rows: 50px;
-    }
-    
-    .product_grid div:nth-child(2n) {
-        background-color: saddlebrown;
-    }
-    
-    .product_grid div:nth-child(2n+1) {
-        background-color: burlywood;
-    }
-    
-    .product_grid div h1 {
-        border-right: black 2px solid;
-    }
-    
-    .product_grid div h1:last-child {
-        border-right: 0;
-    }
+
+    .one {grid-area: one;}
+    .two {grid-area: two;}
+
+
     /*Chart design*/
     
     #curve_chart {
