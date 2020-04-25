@@ -1,4 +1,4 @@
-import pymongo
+'''import pymongo
 
 class Database:
     def __init__(self, url= "mongodb+srv://supplied:parola@cluster0-0hs4a.mongodb.net/test?retryWrites=true&w=majority"):
@@ -72,3 +72,4 @@ class Database:
 #db.create_collection("nothing")
 #db.insert_one_in_collection("nothing", {"name" : "one"})
 #db.print_collection("nothing")
+'''
