@@ -1,6 +1,6 @@
 from processing import *
 from WebScraper import *
-from databaseProcesses import *
+#from databaseProcesses import *
 from hashlib import *
 
 class siteFunctions:
@@ -9,8 +9,8 @@ class siteFunctions:
         self.siteEmail = 'food.tracker.prices@gmail.com'
         self.sitePassword = 'mqgjzndoxjhmlzbk'
 
-        self.database = Database()
-        self.database.create_collection("users")
+        #self.database = Database()
+        #self.database.create_collection("users")
         self.userList = {}
 
     def security(self, name):
@@ -35,7 +35,7 @@ class siteFunctions:
         id = self.security(password_hash)
         user = User(first_name, last_name, email, id, password_hash)
         self.userList[id] = user
-        self.database.insert_one_in_collection("users", user.to_dict())
+        #self.database.insert_one_in_collection("users", user.to_dict())
 
     def add_product(self, id, category, name, price, quantity, time):
         self.userList[id].add_item(category, name, price, quantity, time)
@@ -53,11 +53,21 @@ class siteFunctions:
         userEmail = self.userList[id].email
         send_mail(objList, self.siteEmail, self.sitePassword, userEmail)
 
+    def get_days_left(self, id):
+        return self.userList[id].get_days_until_empty()
 
 Site = siteFunctions()
+global absoluteTime
+
+print(absoluteTime)
+
+updateTime(1)
+
+print(absoluteTime)
 
 Site.add_user("Bob","Bob","Bob@gmail.com","Bob")
 Site.add_product(Site.security("Bob"), "apa", "Borsec", 1.0, 2, 2)
 Site.add_product(Site.security("Bob"), "apa", "Borsec", 1.0, 2, 3)
 Site.add_product(Site.security("Bob"), "apa", "Borsec", 1.0, 2, 4)
-print(Site.get_week_forecast(Site.security("Bob")))
+print(Site.get_days_left(Site.security("Bob")))
+#print(Site.get_week_forecast(Site.security("Bob")))

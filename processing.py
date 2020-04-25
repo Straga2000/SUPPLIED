@@ -77,10 +77,19 @@ class Product:
     def get_average_daily_distribution(self):
         if absoluteTime == self.timeStamp[0]:
             return 0
+        
         return (self.totalQuantity - self.quantity[self.updateCounter - 1]) / \
                (absoluteTime - self.timeStamp[0])
         # D = Average daily_Distribution = total_quantity without the last buy / (time passed from the first buy)
         # se face dupa set_product
+
+    def get_days_until_empty(self):
+        avg = self.get_average_daily_distribution()
+        if avg != 0:
+            if (round(self.quantity[len(self.quantity) - 1] // avg)  - (absoluteTime - self.timeStamp[len(self.timeStamp) - 1])) < 0:
+                return 0
+            else:
+                return (round(self.quantity[len(self.quantity) - 1] // avg)  - (absoluteTime - self.timeStamp[len(self.timeStamp) - 1]))
 
     def get_future_price(self, time):
 
@@ -118,6 +127,7 @@ class Product:
 
         avgDailyDistr = self.get_average_daily_distribution()
         ans = 0.0
+
 
         for index in range(1, 8):
             ans += avgDailyDistr * self.get_future_price(absoluteTime + index)
@@ -163,13 +173,23 @@ class ProductList:
         self.productList = {}
 
     def add_product(self, category, name, price, quantity, time):
+        global absoluteTime
+
+        absoluteTime = time
+
         if self.productList.get(name) is None:
-            self.productList[name] = Product(category, name, price, quantity, time)
+            self.productList[name] = Product(category, name, price, quantity, time)  
             # if the product is water or meds, set the priority to max
             if category in important_category[0] or category in important_category[0]:
                 self.productList[name].set_priority(10)
         else:
             self.productList[name].update_product(price, quantity, time)
+
+    def get_days_until_empty(self):
+        ans = dict()
+        for key in self.productList.keys():
+            ans[key] = self.productList[key].get_days_until_empty()
+        return ans
 
     def get_product(self, name):
         if self.productList.get(name) is not None:
@@ -211,6 +231,7 @@ class ProductList:
     def get_expense_over_a_week(self):
         ans = 0.0
         for item in self.productList.keys():
+
             ans += self.productList[item].get_expense_over_a_week()
 
         return ans
@@ -253,8 +274,11 @@ class User:
         self.budget = val
 
     def add_item(self, category, name, price, quantity, time):
-        absoluteTime = time
+
         self.product_list.add_product(category, name, price, quantity, time)
+
+    def get_days_until_empty(self):
+        return self.product_list.get_days_until_empty()
 
     def get_remove_suggestion(self):
         expense = self.product_list.get_expense_over_a_month()

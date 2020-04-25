@@ -9,7 +9,6 @@ function getInfo()
         product : document.getElementById("product").value,
         quantity : document.getElementById("quantity").value,
         price : document.getElementById("price").value
-
     };
     //reinit formulare
     document.getElementById("product").value = "";

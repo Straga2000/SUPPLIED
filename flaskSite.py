@@ -3,12 +3,15 @@ from flask import Flask, render_template, url_for, flash, redirect,request
 from secrets import token_hex
 from os import *
 from random import choice, randint
+from main import *
+
+time = 0
 
 #https://stackoverflow.com/questions/31002890/how-to-reference-a-html-template-from-a-different-directory-in-python-flask/31003097
 
 workingDirectory = path.dirname(__file__)
 #workingDirectory = workingDirectory + "/Templates/Front-FoodTracker-master"
-print(workingDirectory)
+#print(workingDirectory)
 
 app = Flask(__name__, template_folder=workingDirectory)
 
@@ -27,9 +30,27 @@ def hello_world():
 
 @app.route("/post", methods =['GET','POST'])
 def worker():
+    global time 
+    global Site
+    time += 1
     data = request.get_json()
-    print(data)
+    
+    Site.add_product(Site.security("Bob"), "unknown", data['product'], float(data['price']), int(data['quantity']), time)
+
+    if Site.get_days_left(Site.security("Bob"))[data['product']]:
+
+        if Site.get_days_left(Site.security("Bob"))[data['product']] == 1:
+            data['forecast'] = str(Site.get_days_left(Site.security("Bob"))[data['product']]) + " day"
+        else:
+            data['forecast'] = str(Site.get_days_left(Site.security("Bob"))[data['product']]) + " days"
+
+    else:
+        data['forecast'] = "Not known yet"
+
     posts.append(data)
+    
+    print(Site.get_week_forecast(Site.security("Bob")))
+
     return redirect('/')
 
 # @app.route('/register', methods=['GET', 'POST'])
@@ -48,5 +69,6 @@ def worker():
 #     return render_template('login.html', title='Login', form=form)
 
 if __name__ == "__main__":
+    #Site = siteFunctions()
     app.run(debug=True, use_reloader=True)
 
