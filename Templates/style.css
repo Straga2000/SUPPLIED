@@ -1,34 +1,83 @@
     @charset "utf-8";
-    html {width: 100%; height: 100%; margin: 0;padding: 0;}
-
-    body {height: 100%; width: 100%; margin: 0; padding: 0 5%;
-          font-size: 1.5rem; line-height: 1.6em;
-          background-color: burlywood}
+    html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
     
-    *, *::before, *::after {box-sizing: border-box;}
-    h1, h2, h3, h4, h5, h6{margin: 0; font-size: 1.4rem; line-height: normal; font-weight: normal;}
-
-    h1 {position: center; width: 100%;
+    body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0 5%;
+        font-size: 1.5rem;
+        line-height: 1.6em;
+        background-color: burlywood
+    }
+    
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
+        font-size: 1.4rem;
+        line-height: normal;
+        font-weight: normal;
+    }
+    
+    h1 {
+        position: center;
+        width: 100%;
         text-align: center;
-        color: #fff6b4;}
-
-    table{width: 100%; margin: 0}
-    table tr{height: 50px; width: 100%;}
-    table tr:nth-child(2n) {background-color: #fff6b4; width: 100%;}
-    table tr:nth-child(2n + 1) {background-color: #dd6127;}
-    table th {background-color: #895600;}
-    table tr td {padding: 0 1%; border-spacing: 0}
-
+        color: #fff6b4;
+    }
+    
+    table {
+        width: 100%;
+        margin: 0
+    }
+    
+    table tr {
+        height: 50px;
+        width: 100%;
+    }
+    
+    table tr:nth-child(2n) {
+        background-color: #fff6b4;
+        width: 100%;
+    }
+    
+    table tr:nth-child(2n + 1) {
+        background-color: #dd6127;
+    }
+    
+    table th {
+        background-color: #895600;
+    }
+    
+    table tr td {
+        padding: 0 1%;
+        border-spacing: 0
+    }
     /*Grid design*/
+    
     .product_grid {
         position: relative;
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: repeat(auto-fit, 1fr);
     }
-
-    .product_grid div
-    {
+    
+    .product_grid div {
         position: relative;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -43,9 +92,21 @@
         background-color: burlywood;
     }
     
-    .product_grid div h1 {border-right: black 2px solid;}
-
-    .product_grid div h1:last-child {border-right: 0;}
+    .product_grid div h1 {
+        border-right: black 2px solid;
+    }
+    
+    .product_grid div h1:last-child {
+        border-right: 0;
+    }
+    /*Chart design*/
+    
+    #curve_chart {
+        margin-left: auto;
+        margin-right: auto;
+        height: 400px;
+        width: 800px;
+    }
     /*Color design*/
     /*.product_grid:nth-child(2n) {
     background-color: #123456;
