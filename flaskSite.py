@@ -37,7 +37,7 @@ monthly_expense = Site.get_month_forecast(Site.security("Bob"))
 
 remove_list = Site.get_remove_list(Site.security("Bob"))
 
-print(remove_list)
+print(weekly_list)
 
 print('-----------------------------------------------')
 
@@ -92,6 +92,25 @@ def worker():
     #print(Site.get_week_forecast(Site.security("Bob")))
 
     return redirect('/')
+
+@app.route('/daily')
+def show():
+    return render_template("dummy_budget.html", posts=daily_list, 
+    daily_budget = daily_expense, weekly_budget = weekly_expense, 
+    monthly_budget = monthly_expense) 
+
+
+@app.route('/weekly')
+def show2():
+    return render_template("dummy_budget.html", 
+    posts=weekly_list, daily_budget = daily_expense, 
+    weekly_budget = weekly_expense, monthly_budget = monthly_expense) 
+
+@app.route('/monthly')
+def show3():
+    return render_template("dummy_budget.html", posts=monthly_list, 
+    daily_budget = daily_expense, weekly_budget = weekly_expense, 
+    monthly_budget = monthly_expense) 
 
 
 if __name__ == "__main__":

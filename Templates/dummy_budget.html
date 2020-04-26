@@ -28,16 +28,15 @@
                 <span>
                     <div class="line">
                     <h1>Product name</h1>
-                    <h1>Quantity</h1>
-                    <h1>Price</h1>
-                    <h1>Forecast</h1>
+                    <h1>Average Price</h1>
+                    <h1>Monthly Expense</h1>
                 </div>
 
                 {% for post in posts %}
                 <div class="line">
-                  <h1>{{post.product}}</h1>
-                  <h1>{{post.quantity}}</h1>
-                  <h1>{{post.forecast}}</h1>
+                  <h1>{{post.name}}</h1>
+                  <h1>{{post.average_price}}</h1>
+                  <h1>{{post.monthly_expense}}</h1>
                 </div>
               {% endfor %}
               
