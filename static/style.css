@@ -12,6 +12,8 @@ h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-
 
 *, *::before, *::after {box-sizing: border-box;}
 
+.round {border-radius: 12px;}
+
 /*Composite*/
 .line{position:relative; display: flex; flex-direction: row; justify-content: space-evenly;
     padding: 1%; margin: 0;}
@@ -27,8 +29,8 @@ h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-
 
 .list span {height: 550px;}
 
-#popUp{display: none; background-color: saddlebrown; position: absolute; right: 0; top: 0; width: 100%; height: 100%; z-index: 900;}
-#popUp div{background-color: lightseagreen; position: absolute; width: 30%; height: 50%; right: 35%; top: 25%; margin:0; padding: 0;}
+#popUp{display: none; position: absolute; right: 0; top: 0; width: 100%; height: 100%; z-index: 900;}
+#popUp div{position: absolute; width: 30%; height: 50%; right: 35%; top: 25%; margin:0; padding: 0;}
 #popUp button {margin: 1%; padding: 2%;}
 #popUp input{margin: 1%; padding: 2%;}
 #popUp h1 {margin: 3% 1%; padding: 0}
@@ -46,14 +48,25 @@ h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-
 .two_third{width:65.26315%;}
 .three_quarter{width:73.94736%;}
 
-/*Color properties*/
-body {background-color: black;}
-div.line {background-color: #878b00;}
-div.list {background-color: crimson;}
-.list div:first-child {background-color: cyan;}
-.list div{background-color: #ffe136;}
+/*
+#FFBF69ff;
+#7D6D86ff;
+#433E56ff;
+#9F6976ff;
+#FF9F1Cff;
+*/
 
-div.one_half:nth-child(1)
-{background-color: #391f69;}
-div.one_half:nth-child(2)
-{background-color: #391f00;}
+/*Color properties*/
+body {background-color: #7D6D86ff; scrollbar-color: #7D6D86ff #433E56ff}
+.list div:first-child {background-color: #433E56ff; color: #FFBF69ff;}
+.list div{background-color: #FFBF69ff; color: #231340;}
+
+div.one_half:nth-child(1) {background-color: #391f69;}
+
+#popUp {background-color: #433E56ff}
+#popUp h1 {color: #FFBF69ff;}
+#popUp button {background-color: #231340; color: #FFBF69ff;}
+#popUp input, #popUp button {border-radius: 12px;}
+
+button {background-color: #FFBF69ff; border: 0}
+
