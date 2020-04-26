@@ -85,7 +85,14 @@ def worker():
     else:
         data['forecast'] = "Not known yet"
 
-    
+    daily_list = Site.get_items_list(Site.security("Bob"), 'daily') 
+    weekly_list = Site.get_items_list(Site.security("Bob"), 'weekly')
+    monthly_list = Site.get_items_list(Site.security("Bob"), 'monthly')
+
+    #cele 3 expensuri pe care trebuie sa le pui in html
+    daily_expense = Site.get_daily_forecast(Site.security("Bob"))
+    weekly_expense = Site.get_week_forecast(Site.security("Bob"))
+    monthly_expense = Site.get_month_forecast(Site.security("Bob"))
 
     product_list.append(data)
 
