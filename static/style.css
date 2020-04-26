@@ -13,8 +13,8 @@ h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-
 *, *::before, *::after {box-sizing: border-box;}
 
 /*Composite*/
-.line{display: flex; flex-direction: row; justify-content: space-evenly;
-     padding: 1%; margin: 0;}
+.line{position:relative; display: flex; flex-direction: row; justify-content: space-evenly;
+    padding: 1%; margin: 0;}
 .line button{
     padding: 1%;}
 .line h1{display: flex; justify-content:center;
@@ -28,6 +28,11 @@ h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-
 .list span {height: 550px;}
 
 #popUp{display: none; background-color: saddlebrown; position: absolute; right: 0; top: 0; width: 100%; height: 100%; z-index: 900;}
+#popUp div{background-color: lightseagreen; position: absolute; width: 30%; height: 50%; right: 35%; top: 25%; margin:0; padding: 0;}
+#popUp button {margin: 1%; padding: 2%;}
+#popUp input{margin: 1%; padding: 2%;}
+#popUp h1 {margin: 3% 1%; padding: 0}
+
 #addProduct {padding: 1%; margin: 1%;}
 #curve_chart {width: 100%; height: 485px;}
 
