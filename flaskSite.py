@@ -58,7 +58,7 @@ for i in range(10):
 
 @app.route("/", methods =['GET','POST'])
 def hello_world():
-    return render_template("table.html", posts=product_list)
+    return render_template("dummy.html", posts=product_list)
 
 
 @app.route("/post", methods =['GET','POST'])

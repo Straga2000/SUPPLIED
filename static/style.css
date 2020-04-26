@@ -1,22 +1,54 @@
 @charset "utf-8";
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
 
-td,
-th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
+html {width: 100%; height: 100%;
+    margin: 0; padding: 0;}
 
-tr:nth-child(even) {
-    background-color: #dd6127;
-}
+body {width: 100%; height: 100%;
+    margin: 0; padding: 2% 3%;
+    font-size: 1.5rem; line-height: 1.6em;}
 
-h1 {
-    border: 3px solid yellow;
-    text-align: center;
-}
+/*General*/
+h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-weight: normal;}
+
+*, *::before, *::after {box-sizing: border-box;}
+
+/*Composite*/
+.line{display: flex; flex-direction: row; justify-content: space-evenly;
+     padding: 1%; margin: 0;}
+.line button{
+    padding: 1%;}
+.line h1{display: flex; justify-content:center;
+    width: 100%;}
+
+.list span {flex: 1 1 auto; overflow-y: scroll;}
+
+.list{display: flex; flex-direction: column; justify-content: space-evenly;}
+.list div {margin: 1%;}
+
+.list span {height: 550px;}
+
+#popUp{display: none; background-color: saddlebrown; position: absolute; right: 0; top: 0; width: 100%; height: 100%; z-index: 900;}
+#addProduct {padding: 1%; margin: 1%;}
+#curve_chart {width: 100%; height: 485px;}
+
+/*Basic grid*/
+.one_half, .one_third, .two_third, .one_quarter, .two_quarter, .three_quarter{display:inline-block; float:left; margin:0 0 0 4.21052%;}
+
+.first{margin-left:0; clear:left;}
+.one_quarter{width:21.8421%;}
+.one_third{width:30.52631%;}
+.one_half, .two_quarter{width:47.89473%;}
+.two_third{width:65.26315%;}
+.three_quarter{width:73.94736%;}
+
+/*Color properties*/
+body {background-color: black;}
+div.line {background-color: #878b00;}
+div.list {background-color: crimson;}
+.list div:first-child {background-color: cyan;}
+.list div{background-color: #ffe136;}
+
+div.one_half:nth-child(1)
+{background-color: #391f69;}
+div.one_half:nth-child(2)
+{background-color: #391f00;}

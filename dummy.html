@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <script src="script.js" rel="script" type="application/javascript"></script>
+    <link href='{{ url_for("static", filename="style.css") }}' rel="stylesheet" type="text/css">
+    <script src='{{ url_for("static", filename="script.js") }}' rel="script" type="application/javascript"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
@@ -48,11 +48,11 @@
             <div class="list">
                 <div class="line">
                     <h1>Daily budget</h1>
-                    <h1>17.20$</h1>
+                    <h1>{{daily_budget}}$</h1>
                 </div>
                 <div class="line">
                     <h1>Weekly budget</h1>
-                    <h1>130.56$</h1>
+                    <h1>{{weekly_budget}}$</h1>
                 </div>
                 <div class="line">
                     <h1>Mounthly budget</h1>
@@ -62,5 +62,7 @@
             <div id="curve_chart"></div>
         </div>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src = '{{ url_for("static", filename="script_product.js") }}'></script>
 </body>
 </html>
