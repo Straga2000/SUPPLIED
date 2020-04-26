@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="script.js" rel="script" type="application/javascript"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <div>
+        <div id="popUp">
+        </div>
+        <div class="one_half first">
+            <div class="line">
+                <button class="one_third first">Daily</button>
+                <button class="one_third">Weekly</button>
+                <button class="one_third">Monthly</button>
+            </div>
+
+            <div class="list">
+                <button id = "addProduct">Add product</button>
+            </div>
+
+            <div class="list">
+
+                <span>
+                    <div class="line">
+                    <h1>Product name</h1>
+                    <h1>Quantity</h1>
+                    <h1>Price</h1>
+                    <h1>Forecast</h1>
+                </div>
+
+                {% for post in posts %}
+                <div class="line">
+                  <h1>{{post.product}}</h1>
+                  <h1>{{post.quantity}}</h1>
+                  <h1>{{post.forecast}}</h1>
+                </div>
+              {% endfor %}
+              
+                </span>
+
+            </div>
+        </div>
+        <div class="one_half">
+            <div class="list">
+                <div class="line">
+                    <h1>Daily budget</h1>
+                    <h1>17.20$</h1>
+                </div>
+                <div class="line">
+                    <h1>Weekly budget</h1>
+                    <h1>130.56$</h1>
+                </div>
+                <div class="line">
+                    <h1>Mounthly budget</h1>
+                    <h1>621.30$</h1>
+                </div>
+            </div>
+            <div id="curve_chart"></div>
+        </div>
+    </div>
+</body>
+</html>

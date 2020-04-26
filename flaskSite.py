@@ -37,7 +37,7 @@ monthly_expense = Site.get_month_forecast(Site.security("Bob"))
 
 remove_list = Site.get_remove_list(Site.security("Bob"))
 
-print(remove_list)
+print(weekly_list)
 
 print('-----------------------------------------------')
 
@@ -58,7 +58,9 @@ for i in range(10):
 
 @app.route("/", methods =['GET','POST'])
 def hello_world():
-    return render_template("table.html", posts=product_list)
+    return render_template("dummy.html", posts=product_list, 
+    daily_budget = daily_expense, weekly_budget = weekly_expense, 
+    monthly_budget = monthly_expense)
 
 
 @app.route("/post", methods =['GET','POST'])
@@ -83,13 +85,39 @@ def worker():
     else:
         data['forecast'] = "Not known yet"
 
-    
+    daily_list = Site.get_items_list(Site.security("Bob"), 'daily') 
+    weekly_list = Site.get_items_list(Site.security("Bob"), 'weekly')
+    monthly_list = Site.get_items_list(Site.security("Bob"), 'monthly')
+
+    #cele 3 expensuri pe care trebuie sa le pui in html
+    daily_expense = Site.get_daily_forecast(Site.security("Bob"))
+    weekly_expense = Site.get_week_forecast(Site.security("Bob"))
+    monthly_expense = Site.get_month_forecast(Site.security("Bob"))
 
     product_list.append(data)
 
     #print(Site.get_week_forecast(Site.security("Bob")))
 
     return redirect('/')
+
+@app.route('/daily')
+def show():
+    return render_template("dummy_budget.html", posts=daily_list, 
+    daily_budget = daily_expense, weekly_budget = weekly_expense, 
+    monthly_budget = monthly_expense) 
+
+
+@app.route('/weekly')
+def show2():
+    return render_template("dummy_budget.html", 
+    posts=weekly_list, daily_budget = daily_expense, 
+    weekly_budget = weekly_expense, monthly_budget = monthly_expense) 
+
+@app.route('/monthly')
+def show3():
+    return render_template("dummy_budget.html", posts=monthly_list, 
+    daily_budget = daily_expense, weekly_budget = weekly_expense, 
+    monthly_budget = monthly_expense) 
 
 
 if __name__ == "__main__":
