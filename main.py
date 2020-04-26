@@ -49,25 +49,53 @@ class siteFunctions:
     def get_month_forecast(self, id):
         return self.userList[id].product_list.get_expense_over_a_month()
 
+    def get_daily_forecast(self, id):
+        return self.userList[id].product_list.get_expeense_over_a_day()
+
     def get_email_by_search(self, id, objList):
         userEmail = self.userList[id].email
         send_mail(objList, self.siteEmail, self.sitePassword, userEmail)
 
     def get_days_left(self, id):
         return self.userList[id].get_days_until_empty()
+    
+    def get_items_list(self, id, mode = 'daily'):
+        return self.userList[id].get_items_list(mode)
+    
+    def get_remove_list(self, id):
+        return self.userList[id].get_remove_suggestion()
+
+
+    
 
 Site = siteFunctions()
-global absoluteTime
+absoluteTime = 1
 
-print(absoluteTime)
+#print(absoluteTime)
 
-updateTime(1)
-
-print(absoluteTime)
+#print(absoluteTime)
 
 Site.add_user("Bob","Bob","Bob@gmail.com","Bob")
-Site.add_product(Site.security("Bob"), "apa", "Borsec", 1.0, 2, 2)
-Site.add_product(Site.security("Bob"), "apa", "Borsec", 1.0, 2, 3)
-Site.add_product(Site.security("Bob"), "apa", "Borsec", 1.0, 2, 4)
-print(Site.get_days_left(Site.security("Bob")))
+
+Site.add_product(Site.security("Bob"), "apa", "Apa", 1.0, 2, 1)
+Site.add_product(Site.security("Bob"), "mancare", "Paine", 0.5, 2, 1)
+
+Site.add_product(Site.security("Bob"), "apa", "Apa", 1.0, 2, 2)
+Site.add_product(Site.security("Bob"), "mancare", "Paine", 0.5, 2, 2)
+
+Site.add_product(Site.security("Bob"), "apa", "Apa", 1.0, 2, 3)
+Site.add_product(Site.security("Bob"), "mancare", "Paine", 0.5, 2, 3)
+
+Site.add_product(Site.security("Bob"), "apa", "Apa", 1.0, 2, 4)
+Site.add_product(Site.security("Bob"), "mancare", "Paine", 0.5, 2, 4)
+
+Site.add_product(Site.security("Bob"), "apa", "Apa", 1.0, 2, 5)
+Site.add_product(Site.security("Bob"), "mancare", "Paine", 0.5, 2, 5)
+Site.add_product(Site.security("Bob"), "mancare", "Miere", 10.0, 1, 5)
+Site.add_product(Site.security("Bob"), "mancare", "Nuci", 6.5, 2, 5)
+Site.add_product(Site.security("Bob"), "mancare", "Alune", 1.0, 1, 5)
+Site.add_product(Site.security("Bob"), "misc", "Ciocolata", 1.0, 3, 5)
+
+#print(Site.get_items_list(Site.security("Bob"), 'daily'))
+#print(Site.get_daily_forecast(Site.security("Bob")))
 #print(Site.get_week_forecast(Site.security("Bob")))

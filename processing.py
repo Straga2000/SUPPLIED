@@ -132,6 +132,14 @@ class Product:
         for index in range(1, 8):
             ans += avgDailyDistr * self.get_future_price(absoluteTime + index)
         return abs(ans)
+
+    def get_expense_over_a_month(self):
+        return 4 * self.get_expense_over_a_week()
+
+    def get_expense_over_a_day(self):
+        avgDailyDistr = self.get_average_daily_distribution()
+        return (avgDailyDistr * self.get_future_price(absoluteTime + 1))
+
         # e(x) = Expense of product x over a week = FP(T+1) * D + FP(T + 2) * D +... + FP(T+7) * D
 
     def update_priority(self, value):
@@ -164,6 +172,8 @@ class Product:
         self.prices = obj['prices']
         self.name = obj['name']
 
+    def get_usage(self):
+        return self.updateCounter / absoluteTime
 
 '''  ----------------------------------------- PRODUCTLIST ---------------------------------------  '''
 
@@ -230,21 +240,48 @@ class ProductList:
     # -------------------------------- expense methods ---------------------------
     def get_expense_over_a_week(self):
         ans = 0.0
-        for item in self.productList.keys():
 
+        for item in self.productList.keys():
             ans += self.productList[item].get_expense_over_a_week()
 
         return ans
 
+    def get_expeense_over_a_day(self):
+        ans = 0.0
+
+        for item in self.productList.keys():
+            ans += self.productList[item].get_expense_over_a_day()
+
+        return ans
+
+
     def get_expense_over_a_month(self):
         return 4 * self.get_expense_over_a_week()
+
+    
+    def get_items_list(self, mode = 'daily'):
+        ans = list()
+        if mode == 'daily':
+            threshold = 0.8
+        elif mode == 'weekly':
+            threshold = 0.2
+        else:
+            threshold = 0 
+
+        for item in self.productList.keys():
+            if self.productList[item].get_usage() >= threshold:
+                ans += [{"name" : item, "average_price" : self.productList[item].get_average_price(), 
+                "monthly_expense" : self.productList[item].get_expense_over_a_month()}]
+        return ans
+
+
 
 
 ''' ---------------------------------------- USER -------------------------------------------- '''
 
 
 class User:
-    def __init__(self, first_name='', last_name='', email='', id='', password_hash='', budget=0.0, product_list = None):
+    def __init__(self, first_name='', last_name='', email='', id='', password_hash='', budget=82.0, product_list = None):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
@@ -299,7 +336,7 @@ class User:
             for item in vec:
                 if sum + self.budget > expense:
                     return ans
-                response = 0
+                response = 1
                 if (self.product_list.get_product(item[0]).priority < 0):
                     #auto delete the item
                     response = 1
@@ -325,6 +362,8 @@ class User:
             for it in response:
                 print(it[0])
 
+    def get_items_list(self, mode = 'daily'):
+        return self.product_list.get_items_list(mode)
 
 # user = User("Bob", "bob", "Bob", "Bob", "Bob", 14444.0)
 # user.add_item("apa", "borsec", 1.0, 5, absoluteTime)
