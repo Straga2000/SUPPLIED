@@ -1,61 +1,54 @@
-    @charset "utf-8";
+@charset "utf-8";
 
-    html {width: 100%; height: 100%;
-          margin: 0; padding: 0;}
-    
-    body {width: 100%;
-          margin: 0; padding: 0 5%;
-          font-size: 1.5rem; line-height: 1.6em;
-          background-color: burlywood}
-    
-    *, *::before, *::after {box-sizing: border-box;}
-    
-    h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-weight: normal;}
+html {width: 100%; height: 100%;
+    margin: 0; padding: 0;}
 
-    table{height: 100%; width: 100%; margin: 0; border-collapse: collapse;
-          color: #391f69; text-align: center;}
-    table tr{height: 50px; width: 100%;}
-    table tr:nth-child(2n) {width: 100%; background-color: #FFBF69ff;}
-    table tr:nth-child(2n + 1) {background-color: #7a6f9bff; color: #FFBF69ff}
-    table tr:last-child {border-bottom: #4E5069ff 3px solid;}
+body {width: 100%; height: 100%;
+    margin: 0; padding: 2% 3%;
+    font-size: 1.5rem; line-height: 1.6em;}
 
-    table th {height: 10%; padding: 2%;
-              border-bottom: #4E5069ff 3px solid; color: #FFBF69ff;}
-    table th:first-child {border-left: #4E5069ff 3px solid;}
-    table th:last-child {border-right: #4E5069ff 3px solid;}
+/*General*/
+h1, h2, h3, h4, h5, h6 {margin: 0; font-size: 1.4rem; line-height: normal; font-weight: normal;}
 
-    table td {padding: 0 1%; margin: 0;
-                 border-right: #4E5069ff 3px solid;}
-    table td:first-child {border-left: #4E5069ff 3px solid;}
+*, *::before, *::after {box-sizing: border-box;}
 
-    /*Grid design*/
+/*Composite*/
+.line{display: flex; flex-direction: row; justify-content: space-evenly;
+     padding: 1%; margin: 0;}
+.line button{
+    padding: 1%;}
+.line h1{display: flex; justify-content:center;
+    width: 100%;}
 
-    .template_grid
-    {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template: "one two";
-    }
+.list span {flex: 1 1 auto; overflow-y: scroll;}
 
-    .one {grid-area: one;}
-    .two {grid-area: two;}
+.list{display: flex; flex-direction: column; justify-content: space-evenly;}
+.list div {margin: 1%;}
 
+.list span {height: 550px;}
 
-    /*Chart design*/
-    
-    #curve_chart {
-        margin-left: auto;
-        margin-right: auto;
-        height: 400px;
-        width: 800px;
-    }
-    /*Color design*/
-    /*.product_grid:nth-child(2n) {
-    background-color: #123456;
-    ;
-}
+#popUp{display: none; background-color: saddlebrown; position: absolute; right: 0; top: 0; width: 100%; height: 100%; z-index: 900;}
+#addProduct {padding: 1%; margin: 1%;}
+#curve_chart {width: 100%; height: 485px;}
 
-.product_grid:nth-child(2n + 1) {
-    background-color: #12e4f6;
-    ;
-}*/
+/*Basic grid*/
+.one_half, .one_third, .two_third, .one_quarter, .two_quarter, .three_quarter{display:inline-block; float:left; margin:0 0 0 4.21052%;}
+
+.first{margin-left:0; clear:left;}
+.one_quarter{width:21.8421%;}
+.one_third{width:30.52631%;}
+.one_half, .two_quarter{width:47.89473%;}
+.two_third{width:65.26315%;}
+.three_quarter{width:73.94736%;}
+
+/*Color properties*/
+body {background-color: black;}
+div.line {background-color: #878b00;}
+div.list {background-color: crimson;}
+.list div:first-child {background-color: cyan;}
+.list div{background-color: #ffe136;}
+
+div.one_half:nth-child(1)
+{background-color: #391f69;}
+div.one_half:nth-child(2)
+{background-color: #391f00;}
