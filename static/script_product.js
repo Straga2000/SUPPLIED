@@ -14,6 +14,10 @@ function getInfo()
     document.getElementById("product").value = "";
     document.getElementById("quantity").value = "";
     document.getElementById("price").value = "";
+    document.getElementById("popUp").style.display = "none"
+    if (sendData[product] == '')
+        return;
+        
     $.ajax({
         type: "POST",
         url: "/post",
